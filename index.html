@@ -2,58 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>IPFS Зеркала</title>
+    <title>Открытие сайта...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            background-color: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 30px;
-        }
-        h1 { font-size: 2em; }
-        a {
-            display: block;
-            background: #1e88e5;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            margin: 10px auto;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-        }
-        .info { font-size: 0.9em; color: #ccc; margin-top: 20px; }
+        body { background-color: #121212; color: white; font-family: sans-serif; text-align: center; padding: 40px; }
+        a { display: block; background: #1e88e5; color: white; padding: 12px 20px; margin: 10px auto; border-radius: 8px; text-decoration: none; width: 90%; max-width: 400px; }
+        .small { font-size: 0.85em; color: #ccc; margin-top: 30px; }
     </style>
     <script>
+        const hash = "bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede";
         const gateways = [
-            "https://ipfs.io/ipfs/",
             "https://cloudflare-ipfs.com/ipfs/",
+            "https://ipfs.io/ipfs/",
             "https://gateway.pinata.cloud/ipfs/",
             "https://w3s.link/ipfs/",
             "https://nftstorage.link/ipfs/"
         ];
-        const hash = "bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte";
-        async function tryRedirect() {
-            for (let gw of gateways) {
+
+        async function redirectToWorkingGateway() {
+            for (const gateway of gateways) {
+                const url = gateway + hash;
                 try {
-                    await fetch(gw + hash, { method: 'HEAD', mode: 'no-cors' });
-                    window.location.href = gw + hash;
-                    break;
+                    const res = await fetch(url, { method: "HEAD", mode: "no-cors" });
+                    window.location.href = url;
+                    return;
                 } catch (e) {}
             }
+            document.getElementById("fallback").style.display = "block";
         }
-        window.onload = tryRedirect;
+
+        window.onload = redirectToWorkingGateway;
     </script>
 </head>
 <body>
-    <h1>Открыть сайт через IPFS</h1>
-    <p>Если редирект не сработал, выбери шлюз вручную:</p>
-    <a href="https://ipfs.io/ipfs/bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte" target="_blank">Через ipfs.io</a>
-    <a href="https://cloudflare-ipfs.com/ipfs/bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte" target="_blank">Через Cloudflare</a>
-    <a href="https://gateway.pinata.cloud/ipfs/bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte" target="_blank">Через Pinata</a>
-    <a href="https://w3s.link/ipfs/bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte" target="_blank">Через w3s.link</a>
-    <a href="https://nftstorage.link/ipfs/bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte" target="_blank">Через NFT.storage</a>
-    <div class="info">Контент децентрализован. Работает даже при блокировках.</div>
+    <h1>Загрузка сайта из IPFS...</h1>
+    <p>Если не открывается — выбери шлюз вручную:</p>
+    <a href="https://cloudflare-ipfs.com/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Cloudflare</a>
+    <a href="https://ipfs.io/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">ipfs.io</a>
+    <a href="https://gateway.pinata.cloud/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Pinata</a>
+    <a href="https://w3s.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">w3s.link</a>
+    <a href="https://nftstorage.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">nftstorage</a>
+    <p id="fallback" class="small" style="display:none;">К сожалению, ни один шлюз не ответил. Попробуйте позже или используйте VPN.</p>
 </body>
 </html>
