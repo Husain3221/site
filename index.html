@@ -1,44 +1,81 @@
+from zipfile import ZipFile
+from pathlib import Path
+
+# Создаем обновлённую HTML-страницу под IPFS-хэш пользователя
+user_ipfs_hash = "bafybeigq2x77agzvarfeggp5judk3qzjnrjrctomtqrjjyjnaptf4hmnte"
+
+html = f"""
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Зеркало IPFS-сайта</title>
+    <title>IPFS Зеркала</title>
     <style>
-        body { background-color: #121212; color: #fff; font-family: sans-serif; text-align: center; padding: 40px; }
-        a.button { display: block; margin: 10px auto; padding: 15px 25px; background: #1e88e5; color: white; text-decoration: none; border-radius: 10px; width: 90%%; max-width: 400px; }
-        .status { font-size: 0.9em; color: #aaa; }
+        body {{
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+        }}
+        h1 {{ font-size: 2em; }}
+        a {{
+            display: block;
+            background: #1e88e5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin: 10px auto;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }}
+        .info {{ font-size: 0.9em; color: #ccc; margin-top: 20px; }}
     </style>
     <script>
         const gateways = [
-            { name: "ipfs.io", url: "https://ipfs.io/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
-            { name: "cloudflare", url: "https://cloudflare-ipfs.com/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
-            { name: "pinata", url: "https://gateway.pinata.cloud/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
-            { name: "w3s.link", url: "https://w3s.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
-            { name: "nftstorage", url: "https://nftstorage.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" }
+            "https://ipfs.io/ipfs/",
+            "https://cloudflare-ipfs.com/ipfs/",
+            "https://gateway.pinata.cloud/ipfs/",
+            "https://w3s.link/ipfs/",
+            "https://nftstorage.link/ipfs/"
         ];
-
-        async function checkGateways() {
-            for (const gw of gateways) {
-                try {
-                    const res = await fetch(gw.url, { method: 'HEAD', mode: 'no-cors' });
-                    window.location.href = gw.url;
+        const hash = "{user_ipfs_hash}";
+        async function tryRedirect() {{
+            for (let gw of gateways) {{
+                try {{
+                    await fetch(gw + hash, {{ method: 'HEAD', mode: 'no-cors' }});
+                    window.location.href = gw + hash;
                     break;
-                } catch (e) {
-                    console.log("Gateway failed: " + gw.name);
-                }
-            }
-        }
-
-        window.onload = checkGateways;
+                }} catch (e) {{}}
+            }}
+        }}
+        window.onload = tryRedirect;
     </script>
 </head>
 <body>
-    <h1>IPFS-сайт</h1>
-    <p class="status">Если сайт не открылся автоматически, выбери шлюз вручную:</p>
-    <a class="button" href="https://ipfs.io/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через ipfs.io</a>
-    <a class="button" href="https://cloudflare-ipfs.com/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через cloudflare-ipfs</a>
-    <a class="button" href="https://gateway.pinata.cloud/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через pinata</a>
-    <a class="button" href="https://w3s.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через w3s.link</a>
-    <a class="button" href="https://nftstorage.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через nftstorage</a>
+    <h1>Открыть сайт через IPFS</h1>
+    <p>Если редирект не сработал, выбери шлюз вручную:</p>
+    <a href="https://ipfs.io/ipfs/{user_ipfs_hash}" target="_blank">Через ipfs.io</a>
+    <a href="https://cloudflare-ipfs.com/ipfs/{user_ipfs_hash}" target="_blank">Через Cloudflare</a>
+    <a href="https://gateway.pinata.cloud/ipfs/{user_ipfs_hash}" target="_blank">Через Pinata</a>
+    <a href="https://w3s.link/ipfs/{user_ipfs_hash}" target="_blank">Через w3s.link</a>
+    <a href="https://nftstorage.link/ipfs/{user_ipfs_hash}" target="_blank">Через NFT.storage</a>
+    <div class="info">Контент децентрализован. Работает даже при блокировках.</div>
 </body>
 </html>
+"""
+
+# Путь и структура
+folder = Path("/mnt/data/ipfs_final_page")
+folder.mkdir(parents=True, exist_ok=True)
+index_file = folder / "index.html"
+index_file.write_text(html, encoding="utf-8")
+
+# Архивируем
+final_zip_path = "/mnt/data/ipfs_final_page.zip"
+with ZipFile(final_zip_path, "w") as zipf:
+    zipf.write(index_file, arcname="index.html")
+
+final_zip_path
+
