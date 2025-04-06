@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ссылки на площадки Kraken - Mega - OmgOmg!</title>
-<h2 style="text-align: center;"><strong>Актуальные ссылки на площадки Kraken - Mega - OmgOmg!</strong></h2>
-<p style="text-align: center;"><strong>---------</strong></p>
-<h2 style="text-align: center;"><strong>Kraken</strong></h2>
-<h3 style="text-align: center;"><strong>&nbsp;<a href="https://kraken2zgevrayvbqptss5nf7666hmznonf3m7fpzg5bu75txmbxfcqd.onion">kraken2zgevrayvbqptss5nf7666hmznonf3m7fpzg5bu75txmbxfcqd.onion</a></strong></h3>
-<p style="text-align: center;"><strong>---------</strong></p>
-<h2 style="text-align: center;"><strong>Mega</strong></h2>
-<h3 class="p1" style="text-align: center;"><strong>Ссылка на Mega через браузер TOR &ndash; <a href="http://megas75teb6zv7vulksfeiozgnmq554wlekb4ht2hq3e7eeyxoy2daad.onion">megas75teb6zv7vulksfeiozgnmq554wlekb4ht2hq3e7eeyxoy2daad.onion</a></strong></h3>
-<h3 style="text-align: center;">Ссылка на Мега через обычный браузер &ndash; <a href="https://m3gas.cfd"><strong class="red">m3gas.cfd</strong></a></h3>
-<p style="text-align: center;"><strong class="red"><strong>---------</strong></strong></p>
-<h2 style="text-align: center;"><strong>OmgOmg!</strong></h2>
-<h3 style="text-align: center;"><strong>Ссылка на сайт OMG &ndash; <a href="http://omgomgomgpcjujqy4uhbhbkvywpjlybd7wjpsih46mq4oaasgdrqswid.onion">omgomgomgpcjujqy4uhbhbkvywpjlybd7wjpsih46mq4oaasgdrqswid.onion</a></strong></h3>
-<h3 style="text-align: center;"><strong>Ссылка на сайт OMG в клир &ndash; <a href="https://omgomg.store">omgomg.store</a></strong></h3>
+    <meta charset="UTF-8">
+    <title>Зеркало IPFS-сайта</title>
+    <style>
+        body { background-color: #121212; color: #fff; font-family: sans-serif; text-align: center; padding: 40px; }
+        a.button { display: block; margin: 10px auto; padding: 15px 25px; background: #1e88e5; color: white; text-decoration: none; border-radius: 10px; width: 90%%; max-width: 400px; }
+        .status { font-size: 0.9em; color: #aaa; }
+    </style>
+    <script>
+        const gateways = [
+            { name: "ipfs.io", url: "https://ipfs.io/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
+            { name: "cloudflare", url: "https://cloudflare-ipfs.com/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
+            { name: "pinata", url: "https://gateway.pinata.cloud/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
+            { name: "w3s.link", url: "https://w3s.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" },
+            { name: "nftstorage", url: "https://nftstorage.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" }
+        ];
+
+        async function checkGateways() {
+            for (const gw of gateways) {
+                try {
+                    const res = await fetch(gw.url, { method: 'HEAD', mode: 'no-cors' });
+                    window.location.href = gw.url;
+                    break;
+                } catch (e) {
+                    console.log("Gateway failed: " + gw.name);
+                }
+            }
+        }
+
+        window.onload = checkGateways;
+    </script>
 </head>
+<body>
+    <h1>IPFS-сайт</h1>
+    <p class="status">Если сайт не открылся автоматически, выбери шлюз вручную:</p>
+    <a class="button" href="https://ipfs.io/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через ipfs.io</a>
+    <a class="button" href="https://cloudflare-ipfs.com/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через cloudflare-ipfs</a>
+    <a class="button" href="https://gateway.pinata.cloud/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через pinata</a>
+    <a class="button" href="https://w3s.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через w3s.link</a>
+    <a class="button" href="https://nftstorage.link/ipfs/bafybeib3h7tbt5cfawgfbyeohxxmfwqb4muyou5y5bqx7mxewgz435dede" target="_blank">Открыть через nftstorage</a>
+</body>
 </html>
